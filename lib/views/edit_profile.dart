@@ -189,7 +189,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          // Tidak ada fungsi ketika tombol ditekan
+          if (_profileImage != null) {
+            // Return the image file to the previous page
+            Navigator.pop(context, _profileImage);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please upload a profile image.')),
+            );
+          }
         },
         child: Text('Submit', style: TextStyle(fontSize: 18)),
         style: ElevatedButton.styleFrom(
@@ -202,4 +209,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
     );
   }
+
 }
+
+// Simulate the submission logic here
+// void _submitProfile() {
+//   // This is where you'd handle the profile submission, e.g., sending data to a server
+//   print('Profile submitted with image: ${_profileImage!.path}');
+//   ScaffoldMessenger.of(context).showSnackBar(
+//     SnackBar(content: Text('Profile submitted successfully!')),
+//   );
+// }
+
+// }

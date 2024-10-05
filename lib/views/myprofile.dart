@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'edit_profile.dart'; // Impor halaman edit profile
+import 'dart:io'; // To use File for the image
+import 'edit_profile.dart'; // Import the edit profile page
 
-class MyProfilePage extends StatelessWidget {
+class MyProfilePage extends StatefulWidget {
+  @override
+  _MyProfilePageState createState() => _MyProfilePageState();
+}
+
+class _MyProfilePageState extends State<MyProfilePage> {
+  File? _profileImage; // Variable to hold the selected profile image
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +32,15 @@ class MyProfilePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey[200],
-                      image: DecorationImage(
-                        image: AssetImage('assets/checkered_profile.png'),
-                        fit: BoxFit.cover,
-                      ),
+                      image: _profileImage != null
+                          ? DecorationImage(
+                              image: FileImage(_profileImage!),
+                              fit: BoxFit.cover,
+                            )
+                          : DecorationImage(
+                              image: AssetImage('assets/checkered_profile.png'),
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                   SizedBox(height: 10),
@@ -42,12 +55,19 @@ class MyProfilePage extends StatelessWidget {
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Navigasi ke halaman EditProfilePage
-                  Navigator.push(
+                onPressed: () async {
+                  // Navigate to EditProfilePage and wait for the result
+                  final result = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => EditProfilePage()),
                   );
+
+                  // If an image was returned, update the profile image
+                  if (result != null && result is File) {
+                    setState(() {
+                      _profileImage = result; // Set the profile image
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,
@@ -88,7 +108,7 @@ class MyProfilePage extends StatelessWidget {
           ),
           trailing: Icon(Icons.chevron_right),
           onTap: () {
-            // Handle item edit
+            // Handle item edit if necessary
           },
         ),
         Divider(),
