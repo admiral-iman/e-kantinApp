@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
@@ -10,14 +9,18 @@ class MyProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Memperbarui profil ketika halaman dibuka
-    profileController.updateProfile(
-      Get.arguments['name'],
-      Get.arguments['email'],
-      Get.arguments['dob'],
-      Get.arguments['gender'],
-      Get.arguments['profileImage'],
-    );
+    // Memeriksa argumen dan memperbarui profil ketika halaman dibuka
+    final arguments = Get.arguments;
+
+    if (arguments != null) {
+      profileController.updateProfile(
+        arguments['name'] ?? '',
+        arguments['email'] ?? '',
+        arguments['dob'] ?? '',
+        arguments['gender'] ?? '',
+        arguments['profileImage'] ?? '',
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
