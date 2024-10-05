@@ -5,10 +5,6 @@ class OrdersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {}, // No functionality for back button
-        ),
         title: Text('Pesanan Saya', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         elevation: 0,
