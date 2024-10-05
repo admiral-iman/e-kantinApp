@@ -1,3 +1,4 @@
+import 'package:e_kantin/views/home_nologin.dart';
 import 'package:flutter/material.dart';
 
 import 'homepage.dart';
@@ -102,7 +103,6 @@ class _LoginState extends State<Login> {
                 ),
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    // Login button langsung ke homepage
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -118,12 +118,11 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  // Skip button langsung ke homepage tanpa login
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return Home();
+                        return NologinPage();
                       },
                     ),
                   );

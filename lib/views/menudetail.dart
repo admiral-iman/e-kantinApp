@@ -1,3 +1,4 @@
+import 'package:e_kantin/views/pesanan.dart';
 import 'package:flutter/material.dart';
 
 class MenuDetailPage extends StatefulWidget {
@@ -20,6 +21,24 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
         _itemCount--;
       }
     });
+  }
+
+  void _addToOrder() {
+    final orderItem = {
+      'name': 'Ayam Geprek',
+      'description': 'Ayam Krispi dengan sambal yang menendang',
+      'price': 12000,
+      'quantity': _itemCount,
+      'image': 'assets/ayamgeprek.png',
+    };
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PesananPage(
+            orderItems: [orderItem]), // Mengoper item ke PesananPage
+      ),
+    );
   }
 
   @override
@@ -63,7 +82,6 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
                             icon: Icon(Icons.remove),
                             onPressed: _decrementCount,
                           ),
-                          // Ganti Text dengan Container untuk menampilkan count
                           Container(
                             width: 40,
                             alignment: Alignment.center,
@@ -132,7 +150,8 @@ class _MenuDetailPageState extends State<MenuDetailPage> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed:
+                  _addToOrder, // Panggil fungsi untuk menambahkan ke pesanan
               child: Text('Tambahkan ke pesanan'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.orange,
