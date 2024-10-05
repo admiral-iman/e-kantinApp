@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'menudetail.dart'; // Pastikan Anda mengimpor halaman detail menu
 import 'profilepage.dart'; // Halaman profile
 import 'pesanansaya.dart';
@@ -13,6 +14,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 1; // Set default index ke halaman Home
+
+  final Map<String, dynamic> profileData = Get.arguments ?? {};
 
   // Daftar halaman yang akan ditampilkan berdasarkan index
   final List<Widget> _pages = [
@@ -51,10 +54,13 @@ class _HomeState extends State<Home> {
   }
 }
 
-// Halaman Konten Home
+// Halaman Konten Home yang menerima dan menampilkan data pengguna
 class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> profileData =
+        Get.arguments ?? {}; // Data dari CreateProfilePage
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -67,7 +73,7 @@ class HomeContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Selamat Datang di',
+                'Selamat Datang, ${profileData['name'] ?? 'Pengguna'}!',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -108,48 +114,6 @@ class HomeContent extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/baner.png',
-                    width: double.infinity,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  left: 70,
-                  right: 70,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SpecialMenuPage()), // Navigasi ke SpecialMenuPage
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      padding: EdgeInsets.symmetric(vertical: 7),
-                      minimumSize: Size(double.infinity, 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text(
-                      'Spesial Menu Lebaran',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
             const SizedBox(height: 20),
             Text(
@@ -196,6 +160,25 @@ class HomeContent extends StatelessWidget {
     );
   }
 }
+
+// Halaman Pesanan (OrdersPage)
+// class OrdersPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Pesanan'),
+//         backgroundColor: Colors.blue,
+//       ),
+//       body: Center(
+//         child: Text(
+//           'Ini adalah halaman Pesanan',
+//           style: TextStyle(fontSize: 20),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // Definisi MenuCard
 class MenuCard extends StatelessWidget {

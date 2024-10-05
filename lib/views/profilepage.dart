@@ -1,6 +1,6 @@
 // profile_page.dart
 import 'package:flutter/material.dart';
-import 'myprofile.dart';  // Import the new file
+import 'myprofile.dart'; // Pastikan ini sudah benar
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -45,6 +45,7 @@ class ProfilePage extends StatelessWidget {
           ),
           SizedBox(height: 30),
           _buildMenuItem(context, Icons.person, 'My Profile', () {
+            // Navigasi ke MyProfilePage
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyProfilePage()),
@@ -58,7 +59,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, IconData icon, String title, VoidCallback onTap) {
+  Widget _buildMenuItem(
+      BuildContext context, IconData icon, String title, VoidCallback onTap) {
     return ListTile(
       leading: Container(
         padding: EdgeInsets.all(8),

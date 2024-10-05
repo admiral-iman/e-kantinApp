@@ -1,17 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'dart:io'; // To use File for the image
-import 'edit_profile.dart'; // Import the edit profile page
+import 'package:get/get.dart';
+import '../controllers/profile_controller.dart';
+import 'edit_profile.dart';
 
-class MyProfilePage extends StatefulWidget {
-  @override
-  _MyProfilePageState createState() => _MyProfilePageState();
-}
-
-class _MyProfilePageState extends State<MyProfilePage> {
-  File? _profileImage; // Variable to hold the selected profile image
+class MyProfilePage extends StatelessWidget {
+  final ProfileController profileController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    // Memperbarui profil ketika halaman dibuka
+    profileController.updateProfile(
+      Get.arguments['name'],
+      Get.arguments['email'],
+      Get.arguments['dob'],
+      Get.arguments['gender'],
+      Get.arguments['profileImage'],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('My Profile', style: TextStyle(color: Colors.black)),
@@ -32,9 +39,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey[200],
-                      image: _profileImage != null
+                      image: profileController.profileImage.value.isNotEmpty
                           ? DecorationImage(
-                              image: FileImage(_profileImage!),
+                              image: FileImage(
+                                  File(profileController.profileImage.value)),
                               fit: BoxFit.cover,
                             )
                           : DecorationImage(
@@ -48,26 +56,16 @@ class _MyProfilePageState extends State<MyProfilePage> {
               ),
             ),
             SizedBox(height: 30),
-            _buildProfileItem('Name', 'Kattey Barry'),
-            _buildProfileItem('Email', 'kattyberry@gmail.com'),
-            _buildProfileItem('Date of birth', '18/02/2002'),
-            _buildProfileItem('Gender', 'Male'),
+            _buildProfileItem('Name', profileController.name.value),
+            _buildProfileItem('Email', profileController.email.value),
+            _buildProfileItem(
+                'Date of Birth', profileController.dateOfBirth.value),
+            _buildProfileItem('Gender', profileController.gender.value),
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () async {
-                  // Navigate to EditProfilePage and wait for the result
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EditProfilePage()),
-                  );
-
-                  // If an image was returned, update the profile image
-                  if (result != null && result is File) {
-                    setState(() {
-                      _profileImage = result; // Set the profile image
-                    });
-                  }
+                onPressed: () {
+                  Get.to(() => EditProfilePage());
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.orange,
@@ -107,9 +105,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
             style: TextStyle(fontSize: 14),
           ),
           trailing: Icon(Icons.chevron_right),
-          onTap: () {
-            // Handle item edit if necessary
-          },
         ),
         Divider(),
       ],
