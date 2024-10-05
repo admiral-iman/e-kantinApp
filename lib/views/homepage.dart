@@ -1,9 +1,57 @@
 import 'package:flutter/material.dart';
 import 'menudetail.dart'; // Pastikan Anda mengimpor halaman detail menu
+import 'profilepage.dart'; // Halaman profile
+import 'pesanansaya.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _currentIndex = 1; // Set default index ke halaman Home
+
+  // Daftar halaman yang akan ditampilkan berdasarkan index
+  final List<Widget> _pages = [
+    ProfilePage(), // Halaman Profile
+    HomeContent(), // Konten Home (tanpa BottomNavigation)
+    OrdersPage(), // Halaman Pesanan (buat halaman kosong atau sesuai kebutuhan)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_currentIndex], // Tampilkan halaman sesuai index
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index; // Ubah index saat item ditekan
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long),
+            label: 'Pesanan',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Halaman Konten Home
+class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,30 +151,33 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long),
-            label: 'Pesanan',
-          ),
-        ],
-      ),
     );
   }
 }
 
+
+// Halaman Pesanan (OrdersPage)
+// class OrdersPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Pesanan'),
+//         backgroundColor: Colors.blue,
+//       ),
+//       body: Center(
+//         child: Text(
+//           'Ini adalah halaman Pesanan',
+//           style: TextStyle(fontSize: 20),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 // Definisi MenuCard
 class MenuCard extends StatelessWidget {
-  final ImageProvider image; // Menggunakan ImageProvider
+  final ImageProvider image;
   final String title;
   final String price;
 
