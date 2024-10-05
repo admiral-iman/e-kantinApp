@@ -31,9 +31,9 @@ class OrdersPage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                OrderItem(), // No parameters, only UI
+                OrderItem(imagePath: 'assets/ayamgeprek.png'), // Provide the image path
                 Divider(),
-                OrderItem(), // No parameters, only UI
+                OrderItem(imagePath: 'assets/ayamgeprek.png'), // Provide the image path
               ],
             ),
           ),
@@ -44,6 +44,10 @@ class OrdersPage extends StatelessWidget {
 }
 
 class OrderItem extends StatelessWidget {
+  final String imagePath;
+
+  OrderItem({required this.imagePath}); // Constructor to accept imagePath
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,8 +59,16 @@ class OrderItem extends StatelessWidget {
             child: Container(
               width: 80,
               height: 80,
-              color: Colors.grey[300], // Placeholder for image
-              child: Center(child: Text('Gambar', style: TextStyle(color: Colors.white))), // Placeholder text
+              child: Image.asset(
+                imagePath, // Use the provided image path
+                fit: BoxFit.cover, // Scale the image to fit
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[300], // Placeholder color for error
+                    child: Center(child: Text('Foto', style: TextStyle(color: Colors.white))), // Fallback text
+                  );
+                },
+              ),
             ),
           ),
           SizedBox(width: 16),
