@@ -1,3 +1,4 @@
+import 'package:e_kantin/views/createprofile.dart';
 import 'package:e_kantin/views/home_nologin.dart';
 import 'package:flutter/material.dart';
 
@@ -107,7 +108,7 @@ class _LoginState extends State<Login> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return Home();
+                          return CreateProfilePage();
                         },
                       ),
                     );

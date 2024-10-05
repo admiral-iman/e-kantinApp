@@ -92,7 +92,8 @@ class HomeContent extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        // Use SingleChildScrollView
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,6 +111,53 @@ class HomeContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(20), // Tambahkan radius 20px
+                  child: Image.asset(
+                    'assets/baner.png', // Ganti dengan path image yang sesuai
+                    width: double.infinity,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  bottom: 10, // Atur posisi tombol di bagian bawah gambar
+                  left: 70,
+                  right: 70,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigasi ke halaman detail menu (hapus Special Menu)
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => SpecialMenuPageWithNavigation()),
+                      // );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange, // Warna tombol
+                      padding: EdgeInsets.symmetric(
+                          vertical: 7), // Atur padding untuk tinggi tombol
+                      minimumSize: Size(
+                          double.infinity, 14), // Atur ukuran minimum height
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Spesial Menu Lebaran', // Hapus jika tidak diperlukan
+                      style: TextStyle(
+                        fontSize:
+                            10, // Perkecil ukuran font untuk menyesuaikan tinggi
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
             Text(
               'Menu',
               style: TextStyle(
@@ -118,36 +166,37 @@ class HomeContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      print("Tapped on menu item");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MenuDetailPage(),
-                        ),
-                      );
-                    },
-                    child: MenuCard(
-                      image: index % 2 == 0
-                          ? AssetImage('assets/ayamgeprek.png')
-                          : AssetImage('assets/soto.png'),
-                      title: index % 2 == 0 ? 'Ayam Geprek' : 'Soto',
-                      price: index % 2 == 0 ? 'Rp 12.000' : 'Rp 10.000',
-                    ),
-                  );
-                },
+            GridView.builder(
+              shrinkWrap: true, // Use shrinkWrap to limit the size
+              physics:
+                  NeverScrollableScrollPhysics(), // Disable GridView's scrolling
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.75,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
               ),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    print("Tapped on menu item");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MenuDetailPage(),
+                      ),
+                    );
+                  },
+                  child: MenuCard(
+                    image: index % 2 == 0
+                        ? AssetImage('assets/ayamgeprek.png')
+                        : AssetImage('assets/soto.png'),
+                    title: index % 2 == 0 ? 'Ayam Geprek' : 'Soto',
+                    price: index % 2 == 0 ? 'Rp 12.000' : 'Rp 10.000',
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -156,26 +205,6 @@ class HomeContent extends StatelessWidget {
   }
 }
 
-
-// Halaman Pesanan (OrdersPage)
-// class OrdersPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Pesanan'),
-//         backgroundColor: Colors.blue,
-//       ),
-//       body: Center(
-//         child: Text(
-//           'Ini adalah halaman Pesanan',
-//           style: TextStyle(fontSize: 20),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 // Definisi MenuCard
 class MenuCard extends StatelessWidget {
   final ImageProvider image;
@@ -183,54 +212,45 @@ class MenuCard extends StatelessWidget {
   final String price;
 
   const MenuCard({
-    Key? key,
     required this.image,
     required this.title,
     required this.price,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
+            borderRadius: BorderRadius.circular(12),
             child: Image(
               image: image,
-              height: 120,
-              width: double.infinity,
               fit: BoxFit.cover,
+              height: 100,
+              width: double.infinity,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  price,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.orange,
-                  ),
-                ),
-              ],
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              price,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
             ),
           ),
         ],
