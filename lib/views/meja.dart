@@ -1,3 +1,4 @@
+import 'package:e_kantin/views/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -53,10 +54,11 @@ class _MejaPageState extends State<MejaPage> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text(
-                          'Meja ${tableNumberController.text} untuk ${numberOfPeopleController.text} orang dipilih')),
+                // Navigasi ke halaman feedback
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FeedbackPage(),
+                  ),
                 );
               },
               child: Text('Lanjut', style: TextStyle(fontSize: 18)),

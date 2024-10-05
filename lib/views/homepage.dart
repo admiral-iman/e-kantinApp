@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'menudetail.dart'; // Pastikan Anda mengimpor halaman detail menu
 import 'profilepage.dart'; // Halaman profile
 import 'pesanansaya.dart';
+import 'feedback.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
